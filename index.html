@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be Mine? ❤️</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- CSS File Link -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Background Canvas for Floating Hearts -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Initial Proposal Card -->
+    <div class="container" id="proposalCard">
+        <svg class="heart-gif" viewBox="0 0 100 100">
+            <path d="M 50,30 C 50,30 35,10 20,25 C 5,40 25,65 50,85 C 75,65 95,40 80,25 C 65,10 50,30 50,30 Z" fill="#ff4b72"/>
+            <path d="M 35,28 C 30,20 20,22 18,30 C 16,38 28,50 35,58 C 32,48 30,35 35,28 Z" fill="#ffffff" opacity="0.4"/>
+        </svg>
+
+        <h1>Enna Kalyanom Pannikiriya? ❤️</h1>
+        <p class="subtitle">Will you be my forever valentine?</p>
+
+        <div class="btn-group" id="btnContainer">
+            <button id="yesBtn">YES! 💖</button>
+            <button id="noBtn" style="right: 30px;">NO 😜</button>
+        </div>
+
+        <div class="toast" id="toastMsg">No press panna mudiyathu baby! 😉</div>
+    </div>
+
+    <!-- Success Celebration Card -->
+    <div class="container hidden success-card" id="successCard">
+        <svg class="heart-gif" viewBox="0 0 100 100">
+            <path d="M 50,30 C 50,30 35,10 20,25 C 5,40 25,65 50,85 C 75,65 95,40 80,25 C 65,10 50,30 50,30 Z" fill="#ff1493"/>
+            <circle cx="35" cy="40" r="4" fill="#fff"/>
+            <circle cx="65" cy="40" r="4" fill="#fff"/>
+            <path d="M 40,55 Q 50,65 60,55" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+
+        <h2>Yayyyy! I Love You! 💕</h2>
+        <p>Enakkuma theriyum nee YES solluva nu! 😍✨</p>
+        <p class="success-footer">
+            Forever Together! 💍✨
+        </p>
+    </div>
+
+    <!-- JavaScript File Link -->
+    <script src="script.js"></script>
+</body>
+</html>
