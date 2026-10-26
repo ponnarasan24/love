@@ -1,4 +1,4 @@
-// --- Floating Heart Canvas Animation ---
+// --- Floating Hearts Background ---
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -17,9 +17,9 @@ class Particle {
     reset() {
         this.x = Math.random() * canvas.width;
         this.y = canvas.height + 20;
-        this.size = Math.random() * 15 + 8;
-        this.speedY = Math.random() * 1.5 + 0.8;
-        this.speedX = (Math.random() - 0.5) * 0.8;
+        this.size = Math.random() * 12 + 6;
+        this.speedY = Math.random() * 1.2 + 0.6;
+        this.speedX = (Math.random() - 0.5) * 0.6;
         this.opacity = Math.random() * 0.5 + 0.4;
         this.color = `hsl(${Math.random() * 30 + 340}, 100%, 70%)`;
     }
@@ -62,7 +62,7 @@ class Particle {
     }
 }
 
-const particles = Array.from({ length: 30 }, () => new Particle());
+const particles = Array.from({ length: 25 }, () => new Particle());
 
 function animateCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -74,7 +74,7 @@ function animateCanvas() {
 }
 animateCanvas();
 
-// --- Audio Synthesizer (Squeak sound on Escape, Melody on YES) ---
+// --- Mobile Audio Synthesizer ---
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
 
@@ -83,52 +83,56 @@ function initAudio() {
 }
 
 function playRunSound() {
-    initAudio();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.15);
-    
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-    
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.15);
-}
-
-function playSuccessSound() {
-    initAudio();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-    const notes = [261.63, 329.63, 392.00, 523.25, 659.25]; // C E G C E
-    notes.forEach((freq, idx) => {
+    try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         
-        osc.type = 'triangle';
-        osc.frequency.value = freq;
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.12);
         
-        const startTime = audioCtx.currentTime + (idx * 0.12);
-        gain.gain.setValueAtTime(0, startTime);
-        gain.gain.linearRampToValueAtTime(0.2, startTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.6);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
         
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         
-        osc.start(startTime);
-        osc.stop(startTime + 0.6);
-    });
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+    } catch(e) {}
 }
 
-// --- Dynamic Moving "NO" Button Interaction ---
+function playSuccessSound() {
+    try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
+        notes.forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.type = 'triangle';
+            osc.frequency.value = freq;
+            
+            const startTime = audioCtx.currentTime + (idx * 0.1);
+            gain.gain.setValueAtTime(0, startTime);
+            gain.gain.linearRampToValueAtTime(0.2, startTime + 0.04);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.5);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start(startTime);
+            osc.stop(startTime + 0.5);
+        });
+    } catch(e) {}
+}
+
+// --- Dynamic Touch Evasive NO Button Logic ---
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const toast = document.getElementById('toastMsg');
@@ -147,52 +151,59 @@ const messages = [
 ];
 
 function moveNoButton(e) {
-    if (e) e.preventDefault();
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
     playRunSound();
 
-    const containerRect = proposalCard.getBoundingClientRect();
+    const cardRect = proposalCard.getBoundingClientRect();
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
 
-    const maxX = containerRect.width - btnWidth - 40;
-    const maxY = containerRect.height - btnHeight - 40;
+    // Keep button safely inside mobile screen bounds
+    const maxX = cardRect.width - btnWidth - 30;
+    const maxY = cardRect.height - btnHeight - 30;
 
-    const randomX = Math.max(20, Math.floor(Math.random() * maxX)) - (containerRect.width / 2) + (btnWidth / 2);
-    const randomY = Math.max(20, Math.floor(Math.random() * maxY)) - (containerRect.height / 2) + (btnHeight / 2);
+    const randomX = Math.max(15, Math.floor(Math.random() * maxX)) - (cardRect.width / 2) + (btnWidth / 2);
+    const randomY = Math.max(15, Math.floor(Math.random() * maxY)) - (cardRect.height / 2) + (btnHeight / 2);
 
-    noBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(${Math.max(0.6, 1 - count * 0.08)})`;
+    const scaleVal = Math.max(0.65, 1 - count * 0.07);
+    noBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(${scaleVal})`;
 
-    // Grow YES button on every move
+    // Scale up YES button for easier tap
     yesScale += 0.12;
     yesBtn.style.transform = `scale(${yesScale})`;
 
-    // Show dynamic tease toast
+    // Show toast message
     toast.innerText = messages[count % messages.length];
     toast.classList.add('show');
 
     count++;
 }
 
-// Touch and Mouse Event Listeners
-noBtn.addEventListener('mouseenter', moveNoButton);
+// Instant Touch Events for Mobile
 noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+noBtn.addEventListener('mouseenter', moveNoButton);
 noBtn.addEventListener('click', moveNoButton);
 
-// YES Button Click Handler
-yesBtn.addEventListener('click', () => {
+// YES Button Event Listener
+yesBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     playSuccessSound();
 
     proposalCard.classList.add('hidden');
     successCard.classList.remove('hidden');
 
-    // Heart explosion on YES click
-    for (let i = 0; i < 50; i++) {
+    // Heart explosion burst
+    for (let i = 0; i < 40; i++) {
         const burstParticle = new Particle();
         burstParticle.y = window.innerHeight / 2;
         burstParticle.x = window.innerWidth / 2;
-        burstParticle.speedY = (Math.random() - 0.5) * 10;
-        burstParticle.speedX = (Math.random() - 0.5) * 10;
-        burstParticle.size = Math.random() * 20 + 10;
+        burstParticle.speedY = (Math.random() - 0.5) * 8;
+        burstParticle.speedX = (Math.random() - 0.5) * 8;
+        burstParticle.size = Math.random() * 16 + 8;
         particles.push(burstParticle);
     }
 });
