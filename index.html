@@ -2,19 +2,19 @@
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Will You Be Mine? ❤️</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- CSS File Link -->
+    <!-- Mobile-Optimized CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Background Canvas for Floating Hearts -->
+    <!-- Canvas for Floating Hearts -->
     <canvas id="canvas"></canvas>
 
-    <!-- Initial Proposal Card -->
+    <!-- Main Proposal Card -->
     <div class="container" id="proposalCard">
         <svg class="heart-gif" viewBox="0 0 100 100">
             <path d="M 50,30 C 50,30 35,10 20,25 C 5,40 25,65 50,85 C 75,65 95,40 80,25 C 65,10 50,30 50,30 Z" fill="#ff4b72"/>
@@ -26,13 +26,13 @@
 
         <div class="btn-group" id="btnContainer">
             <button id="yesBtn">YES! 💖</button>
-            <button id="noBtn" style="right: 30px;">NO 😜</button>
+            <button id="noBtn">NO 😜</button>
         </div>
 
         <div class="toast" id="toastMsg">No press panna mudiyathu baby! 😉</div>
     </div>
 
-    <!-- Success Celebration Card -->
+    <!-- Mobile Success Card -->
     <div class="container hidden success-card" id="successCard">
         <svg class="heart-gif" viewBox="0 0 100 100">
             <path d="M 50,30 C 50,30 35,10 20,25 C 5,40 25,65 50,85 C 75,65 95,40 80,25 C 65,10 50,30 50,30 Z" fill="#ff1493"/>
@@ -46,10 +46,9 @@
         <p class="success-footer">
             Forever Together! 💍✨
         </p>
-        
     </div>
 
-    <!-- JavaScript File Link -->
+    <!-- JavaScript File -->
     <script src="script.js"></script>
 </body>
 </html>
